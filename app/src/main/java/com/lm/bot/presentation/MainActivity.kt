@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.github.kotlintelegrambot.Bot
 import com.lm.bot.core.BotApp
-import com.lm.bot.di.compose.MainDependencies
 import com.lm.bot.ui.screens.Main
 import javax.inject.Inject
 

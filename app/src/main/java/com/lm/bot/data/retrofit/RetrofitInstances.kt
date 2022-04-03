@@ -24,7 +24,7 @@ object RetrofitInstances {
 
     val jokeApi by lazy {
         Retrofit.Builder()
-            .baseUrl(ANIME_URL)
+            .baseUrl(JOKE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(JokeApi::class.java)
     }

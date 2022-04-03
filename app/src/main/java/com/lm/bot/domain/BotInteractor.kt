@@ -41,7 +41,7 @@ interface BotInteractor {
                             bot.apply {
                                 list.add(Message(id, text, firstName!!))
                                 trySendBlocking(list)
-                                sendMessage(id.cId, text)
+
                                 command("start") {
                                     sendMessage(id.cId, "Hi there!")
                                         .fold({
@@ -54,8 +54,13 @@ interface BotInteractor {
                                         repository.joke().collect {
                                             when (it) {
                                                 is APIResponse.Success -> {
-                                                    Log.d("My", it.toString())
-                                                    //sendMessage(id.cId, it)
+                                                    it.data?.apply {
+                                                        if (get("type").asString == "twopart")
+                                                            sendMessage(id.cId,
+                                                                "- " + get("setup").asString + "\n" +
+                                                                        "- " + get("delivery").asString)
+                                                        else sendMessage(id.cId, get("joke").asString)
+                                                    }
                                                 }
 
                                                 is APIResponse.Loading -> {}
