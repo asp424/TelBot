@@ -28,6 +28,14 @@ fun DependencyHandlerScope.impl() {
     addD(dep = "androidx.appcompat:appcompat:1.4.1")
     addD(dep = "com.google.android.material:material:1.6.0-alpha02")
 
+    //Dagger-2
+    addD(dep = "com.google.dagger:dagger:2.40.5")
+    addD(dep = "com.google.dagger:dagger-compiler:2.40.5", method = kapt)
+
+    //Retrofit
+    addD(dep = "com.squareup.retrofit2:retrofit:2.9.0")
+    addD(dep = "com.squareup.retrofit2:converter-gson:2.9.0")
+
     //TelBot
     addD(dep = "io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.6")
 
@@ -49,6 +57,7 @@ val listPlugins = listOf(
 
 private fun DependencyHandlerScope.addD(method: String = imp, dep: Any) = add(method, dep)
 private val imp get() = "implementation"
+private val kapt get() = "kapt"
 
 
 

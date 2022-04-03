@@ -1,6 +1,7 @@
-package com.lm.bot.core
+package com.lm.bot.data
 
 import android.content.SharedPreferences
+import javax.inject.Inject
 
 
 interface SharedPrefProvider {
@@ -11,7 +12,7 @@ interface SharedPrefProvider {
 
     fun read(): Boolean
 
-    class Base (private val sharedPreferences: SharedPreferences) :
+    class Base @Inject constructor(private val sharedPreferences: SharedPreferences) :
         SharedPrefProvider {
 
         override fun run() = sharedPreferences.edit().putBoolean("id", false).apply()
