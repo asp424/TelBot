@@ -1,14 +1,14 @@
 package com.lm.bot.di.dagger.modules
 
-import com.lm.bot.data.repository.Repository
+import com.lm.bot.data.api.BotHandler
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
 
 @Module
-interface RepositoryModule {
+interface BotHandlerModule {
 
     @Binds
     @Singleton
-    fun bindRepository(repository: Repository.Base): Repository
+    fun bindsBotHandler(botHandler: BotHandler.Base): BotHandler
 }

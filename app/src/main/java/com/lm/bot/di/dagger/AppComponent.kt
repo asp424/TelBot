@@ -1,5 +1,6 @@
 package com.lm.bot.di.dagger
 
+import android.app.Application
 import android.content.Intent
 import android.content.SharedPreferences
 import com.lm.bot.data.BotService
@@ -19,6 +20,9 @@ interface AppComponent {
 
         @BindsInstance
         fun sharPr(sharedPreferences: SharedPreferences): Builder
+
+        @BindsInstance
+        fun context(application: Application): Builder
 
         fun create(): AppComponent
     }

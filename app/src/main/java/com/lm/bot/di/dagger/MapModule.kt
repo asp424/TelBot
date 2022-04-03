@@ -8,8 +8,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Module(
     includes = [BotInteractorModule::class,
         RepositoryModule::class, SharedPrefProviderModule::class, ViewModelModules::class,
-        ViewModelFactoryModule::class, BotServiseModule::class, HandlerModule::class
-
+        ViewModelFactoryModule::class, BotServiseModule::class, HandlerModule::class,
+        NotificationProviderModule::class, BotHandlerModule::class
     ]
 )
 interface MapModule
