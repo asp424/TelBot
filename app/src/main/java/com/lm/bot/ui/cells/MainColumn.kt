@@ -1,13 +1,12 @@
 package com.lm.bot.ui.cells
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,27 +27,31 @@ fun MainColumn(
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.Gray).padding(bottom = 140.dp),
+            .background(Color.Gray)
+            .padding(bottom = 140.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
-        CustomTextField(
-            placeholderText = "Token",
-            token = token,
-            res = { tokenV(it); rP.botToken = it },
-            textFieldSize = textFieldSize,
-            color = if (bI.value.first != "Wrong token" && bI.value.first.isNotEmpty()
-                && token.isNotEmpty() && token.length == 46
-            ) Teal200
-            else Black,
-            tint = if (bI.value.first != "Wrong token" && bI.value.first.isNotEmpty()
-                && token.isNotEmpty() && token.length == 46
-            ) Teal200
-            else LocalContentColor.current.copy(alpha = 0.3f)
-        )
+        DataCard(vm.listMessages.collectAsState(), textFieldSize)
+        Box(modifier = Modifier.padding(top = animateDpAsState(if (!textFieldSize) 0.dp else 60.dp).value)) {
+            CustomTextField(
+                placeholderText = "Token",
+                token = token,
+                res = { tokenV(it); rP.botToken = it },
+                textFieldSize = textFieldSize,
+                color = if (bI.value.first != "Wrong token" && bI.value.first.isNotEmpty()
+                    && token.isNotEmpty() && token.length == 46
+                ) Teal200
+                else Black,
+                tint = if (bI.value.first != "Wrong token" && bI.value.first.isNotEmpty()
+                    && token.isNotEmpty() && token.length == 46
+                ) Teal200
+                else LocalContentColor.current.copy(alpha = 0.3f)
+            )
+        }
         InfoCard(bI, botInfoVis, vm)
-        CustomButton(vm, butText, onClick = { bT, tFS ->
-            onClick(bT, tFS); tokenV("")
-        }, rP)
+        CustomButton(butText, onClick = { bT, tFS ->
+            onClick(bT, tFS);
+        }, rP, bI)
     }
 }

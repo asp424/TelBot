@@ -30,7 +30,6 @@ fun Main(vm: BotViewModel, rP: BotDataProvider) {
         { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP
     )
 
-    DataCard(vm.listMessages.collectAsState(), textFieldSize)
 }
 
 
