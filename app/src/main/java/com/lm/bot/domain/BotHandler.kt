@@ -4,13 +4,10 @@ import androidx.compose.runtime.mutableStateListOf
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
-import com.lm.bot.core.errors
-import com.lm.bot.core.hi
-import com.lm.bot.core.single
+import com.lm.bot.data.api.APIResponse
 import com.lm.bot.data.model.Joke
 import com.lm.bot.data.model.Message
 import com.lm.bot.data.repository.Repository
-import com.lm.bot.data.api.APIResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
@@ -39,14 +36,16 @@ interface BotHandler {
         override fun onJoke(sc: CommandHandlerEnvironment) =
             CoroutineScope(IO).launch {
                 repository.joke().collect {
+
                     when (it) {
                         is APIResponse.Success -> {
                             it.data?.apply {
                                 if (type != single) mess(sc, twoJoke) else mess(sc, joke)
                             }
                         }
-                        is APIResponse.Failure -> mess(sc, errors)
-                        is APIResponse.Exception -> mess(sc, errors)
+                        is APIResponse.Failure -> mess(sc, error)
+
+                        is APIResponse.Exception -> mess(sc, error)
                         else -> {}
                     }
                 }; cancel()
@@ -74,5 +73,10 @@ interface BotHandler {
 
         private val list by lazy { mutableStateListOf<Message>() }
 
+        private val hi by lazy { "Hi there!" }
+
+        private val error by lazy { "Error. Try again." }
+
+        private val single by lazy { "single" }
     }
 }

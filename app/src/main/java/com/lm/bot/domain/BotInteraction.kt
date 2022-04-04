@@ -6,7 +6,6 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.network.fold
-import com.lm.bot.core.wrong
 import com.lm.bot.data.model.Message
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -43,8 +42,8 @@ interface BotInteraction {
                     bB.dispatch {
                         botHandler.apply {
                             text { onText(this, pS) }
-                            command("start") { onStart(this) }
-                            command("joke") { onJoke(this) }
+                            command(start) { onStart(this) }
+                            command(joke) { onJoke(this) }
                         }
                     }
                 }
@@ -52,17 +51,16 @@ interface BotInteraction {
 
         private val driveBot
             get() = callbackFlow {
-                with(tBot) {
-                    startPolling(); awaitClose { stopPolling() }
-                }
+                with(tBot) { startPolling(); awaitClose { stopPolling() } }
             }.flowOn(IO)
 
         override fun botInfo() = callbackFlow {
             with(bot { token = botToken }.getMe()) {
+
                 fold({
                     it?.result?.apply { trySendBlocking(Pair(firstName, username)) }
-                }, { trySendBlocking(wrong) })
-                awaitClose()
+
+                }, { trySendBlocking(wrong) }); awaitClose()
             }
         }.flowOn(IO)
 
@@ -73,6 +71,15 @@ interface BotInteraction {
 
         override var job: Job = Job()
 
-        companion object { var botToken = ""; var id = 0 }
+        private val wrong by lazy { Pair("Wrong token", "") }
+
+        private val start by lazy { "start" }
+
+        private val joke by lazy { "joke" }
+
+        companion object {
+            var botToken = "";
+            var id = 0
+        }
     }
 }

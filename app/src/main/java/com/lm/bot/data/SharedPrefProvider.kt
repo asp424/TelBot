@@ -15,10 +15,14 @@ interface SharedPrefProvider {
     class Base @Inject constructor(private val sharedPreferences: SharedPreferences) :
         SharedPrefProvider {
 
-        override fun run() = sharedPreferences.edit().putBoolean("id", false).apply()
+        override fun run() = sharedPreferences.edit().putBoolean(ID, false).apply()
 
-        override fun stop() = sharedPreferences.edit().putBoolean("id", true).apply()
+        override fun stop() = sharedPreferences.edit().putBoolean(ID, true).apply()
 
-        override fun read() = sharedPreferences.getBoolean("id", true)
+        override fun read() = sharedPreferences.getBoolean(ID, true)
+    }
+
+    companion object{
+        const val ID = "id"
     }
 }
