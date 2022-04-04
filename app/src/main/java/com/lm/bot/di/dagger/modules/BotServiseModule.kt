@@ -1,7 +1,6 @@
 package com.lm.bot.di.dagger.modules
 
-import com.lm.bot.data.BotService
-import com.lm.bot.data.repository.Repository
+import com.lm.bot.service.BotService
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton

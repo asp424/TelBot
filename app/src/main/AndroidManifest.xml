@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".data.BotService$Base"/>
+        <service android:name=".service.BotService$Base"/>
     </application>
 
 </manifest>

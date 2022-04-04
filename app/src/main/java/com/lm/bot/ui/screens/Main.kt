@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Token
@@ -27,7 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lm.bot.data.BotService.Companion.botToken
+import com.lm.bot.domain.BotInteraction.Base.Companion.botToken
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.cells.CustomTextField
 
@@ -35,21 +37,23 @@ import com.lm.bot.ui.cells.CustomTextField
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Main(vm: BotViewModel) {
-    vm.listMessages.collectAsState().value.also { list ->
+    vm.listMessages.collectAsState().also { list ->
         vm.botInfo.collectAsState().also { bI ->
             LocalSoftwareKeyboardController.current?.apply {
                 LocalContext.current.also { cont ->
                     var token by remember { mutableStateOf("") }
                     var botInfoVis by remember { mutableStateOf(false) }
+                    val stateList = rememberScrollState()
+                    LaunchedEffect(list){
+                        stateList.animateScrollTo(stateList.maxValue)
+                    }
                     LaunchedEffect(token) {
                         token.apply {
                             if (isNotEmpty() && length == 46) {
                                 botToken = token
                                 vm.botInfo()
                                 botInfoVis = true
-                            } else {
-                                botInfoVis = false
-                            }
+                            } else  botInfoVis = false
                         }
                     }
 
@@ -57,7 +61,6 @@ fun Main(vm: BotViewModel) {
                         mutableStateOf(if (vm.check()) "Start bot" else "Stop bot")
                     }
                     var textFieldSize by remember { mutableStateOf(vm.check()) }
-                    var logFieldSize by remember { mutableStateOf(!vm.check()) }
                     Column(
                         Modifier
                             .fillMaxSize()
@@ -119,15 +122,12 @@ fun Main(vm: BotViewModel) {
                                                 "Stop bot"
                                             toast(cont, "Bot started"); textFieldSize =
                                                 false
-                                            logFieldSize = true
                                         } else toast(cont, "Wrong token format")
                                     }
                                 } else {
                                     hide()
                                     vm.stopBot(cont); toast(cont, "Bot stopped")
-                                    textFieldSize = true; butText =
-                                        "Start bot"; logFieldSize =
-                                        false
+                                    textFieldSize = true; butText = "Start bot"
                                 }
                             },
                             modifier = Modifier.padding(top = 10.dp),
@@ -147,14 +147,14 @@ fun Main(vm: BotViewModel) {
                                 .size(
                                     LocalConfiguration.current.screenWidthDp.dp,
                                     animateDpAsState(
-                                        if (logFieldSize) LocalConfiguration.current.screenHeightDp.dp / 3
+                                        if (!textFieldSize) LocalConfiguration.current.screenHeightDp.dp / 3
                                         else 0.dp
                                     ).value
                                 )
                                 .padding(10.dp)
                         ) {
-                            Column {
-                                list.forEach {
+                            Column(modifier = Modifier.verticalScroll(stateList)) {
+                                list.value.forEach {
                                     it.apply {
                                         Text(
                                             text = "$firstName($id): $mess",
@@ -172,8 +172,6 @@ fun Main(vm: BotViewModel) {
             }
         }
     }
-
-
 }
 
 private fun toast(context: Context, text: String) =

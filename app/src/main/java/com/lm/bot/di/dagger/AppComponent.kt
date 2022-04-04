@@ -3,7 +3,7 @@ package com.lm.bot.di.dagger
 import android.app.Application
 import android.content.Intent
 import android.content.SharedPreferences
-import com.lm.bot.data.BotService
+import com.lm.bot.service.BotService
 import com.lm.bot.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component

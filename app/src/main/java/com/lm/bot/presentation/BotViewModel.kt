@@ -14,7 +14,7 @@ import javax.inject.Inject
 class BotViewModel @Inject constructor(
     private val intent: Intent,
     private val sP: SharedPrefProvider,
-    private val botInteractor: BotInteraction
+    private val botInteraction: BotInteraction
     ) : ViewModel() {
 
     private val _botInfo = MutableStateFlow<Pair<String, String?>>(Pair("", ""))
@@ -30,10 +30,10 @@ class BotViewModel @Inject constructor(
 
     fun botInfo() = viewModelScope.launch {
         _botInfo.value = Pair("", "")
-        botInteractor.botInfo().collect { _botInfo.value = it }
+        botInteraction.botInfo().collect { _botInfo.value = it }
     }
 
-    val listMessages get() = botInteractor.messagesFlow.asStateFlow()
+    val listMessages get() = botInteraction.messagesFlow.asStateFlow()
 }
 
 
