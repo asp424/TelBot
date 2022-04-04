@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.network.fold
+import com.lm.bot.core.ResourceProvider
 import com.lm.bot.data.model.Message
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -20,30 +21,34 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 interface BotInteraction {
 
     fun startBot()
 
     fun botInfo(): Flow<Pair<String, String?>>
 
+    fun sendMessage(id: Long, text: String): Flow<Any>
+
     val messagesFlow: MutableStateFlow<MutableList<Message>>
 
     val job: Job
 
-    class Base @Inject constructor(private val botHandler: BotHandler) : BotInteraction {
+    class Base @Inject constructor(
+        private val botHandler: BotHandler,
+        private val rP: ResourceProvider
+    ) : BotInteraction {
 
         override val messagesFlow = MutableStateFlow(mutableListOf<Message>())
 
         private val ProducerScope<MutableList<Message>>.tBot
             get() = Bot.Builder().also { bB ->
                 this.also { pS ->
-                    bB.token = botToken
+                    bB.token = rP.botToken
                     bB.dispatch {
                         botHandler.apply {
                             text { onText(this, pS) }
-                            command(start) { onStart(this) }
-                            command(joke) { onJoke(this) }
+                            command(rP.start) { onStart(this) }
+                            command(rP.joke) { onJoke(this) }
                         }
                     }
                 }
@@ -55,14 +60,17 @@ interface BotInteraction {
             }.flowOn(IO)
 
         override fun botInfo() = callbackFlow {
-            with(bot { token = botToken }.getMe()) {
+            with(handleBot.getMe()) {
 
                 fold({
                     it?.result?.apply { trySendBlocking(Pair(firstName, username)) }
 
-                }, { trySendBlocking(wrong) }); awaitClose()
+                }, { trySendBlocking(rP.wrong) }); awaitClose()
             }
         }.flowOn(IO)
+
+        override fun sendMessage(id: Long, text: String) =
+            botHandler.sendMessage(handleBot, id, text)
 
         override fun startBot() {
             job.apply { if (isActive) cancel() }
@@ -71,15 +79,7 @@ interface BotInteraction {
 
         override var job: Job = Job()
 
-        private val start by lazy { "start" }
+        private val handleBot get() = bot { token = rP.botToken }
 
-        private val joke by lazy { "joke" }
-
-        companion object {
-            var botToken = "";
-            var id = 0
-            val wrong by lazy { Pair("Wrong token", "") }
-            val init by lazy { Pair("", "") }
-        }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -39,16 +40,18 @@ fun DataCard(list: State<MutableList<Message>>, textFieldSize: Boolean) {
                 )
                 .padding(10.dp)
         ) {
-            Column(modifier = Modifier.verticalScroll(stateList)) {
-                list.value.forEach {
-                    it.apply {
-                        Text(
-                            text = "$firstName($id): $mess",
-                            modifier = Modifier.padding(
-                                start = 6.dp,
-                                top = 4.dp
+            SelectionContainer {
+                Column(modifier = Modifier.verticalScroll(stateList)) {
+                    list.value.forEach {
+                        it.apply {
+                            Text(
+                                text = "$firstName($id): $mess",
+                                modifier = Modifier.padding(
+                                    start = 6.dp,
+                                    top = 4.dp
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }

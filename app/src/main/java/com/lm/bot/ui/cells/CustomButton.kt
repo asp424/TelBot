@@ -13,19 +13,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import com.lm.bot.core.ResourceProvider
 import com.lm.bot.domain.BotInteraction
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.presentation.MainActivity
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CustomButton(vm: BotViewModel, butText: String, onClick: (String, Boolean) -> Unit) {
+fun CustomButton(
+    vm: BotViewModel,
+    butText: String,
+    onClick: (String, Boolean) -> Unit,
+    rP: ResourceProvider
+) {
     LocalSoftwareKeyboardController.current?.apply {
         (LocalContext.current as MainActivity).also { cont ->
             Button(
                 onClick = {
                     if (butText == "Start bot") {
-                        BotInteraction.Base.botToken.apply {
+                        rP.botToken.apply {
                             if (isNotEmpty() && length == 46) {
                                 hide()
                                 cont.startBot()
@@ -37,6 +43,7 @@ fun CustomButton(vm: BotViewModel, butText: String, onClick: (String, Boolean) -
                         hide()
                         cont.stopBot(); toast(cont, "Bot stopped")
                         onClick("Start bot", true)
+                        vm.clearInfo()
                     }
                 },
                 modifier = Modifier.padding(top = 10.dp),

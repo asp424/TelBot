@@ -13,6 +13,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,11 +25,12 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CustomTextField(
-    trailingIcon: (@Composable () -> Unit)? = null,
     placeholderText: String = "",
     res: (String) -> Unit,
     textFieldSize: Boolean,
-    token: String
+    token: String,
+    color: Color,
+    tint: Color
 ) {
     BasicTextField(
         value = token,
@@ -35,7 +38,7 @@ fun CustomTextField(
         singleLine = true,
         cursorBrush = SolidColor(MaterialTheme.colors.primary),
         textStyle = LocalTextStyle.current.copy(
-            color = MaterialTheme.colors.onSurface,
+            color = color,
             fontSize = 16.sp
         ),
         decorationBox = { innerTextField ->
@@ -61,7 +64,7 @@ fun CustomTextField(
                 Icon(
                     Icons.Filled.Token,
                     null,
-                    tint = LocalContentColor.current.copy(alpha = 0.3f)
+                    tint = tint
                 )
                 Box(Modifier.weight(1f)) {
                     if (token.isEmpty()) Text(
@@ -73,7 +76,6 @@ fun CustomTextField(
                     )
                     innerTextField()
                 }
-                if (trailingIcon != null) trailingIcon()
             }
         }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text,)
 

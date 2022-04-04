@@ -2,7 +2,7 @@ package com.lm.bot.ui.screens
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
-import com.lm.bot.domain.BotInteraction.Base.Companion.botToken
+import com.lm.bot.core.ResourceProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.cells.DataCard
 import com.lm.bot.ui.cells.MainColumn
@@ -10,7 +10,7 @@ import com.lm.bot.ui.cells.MainColumn
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Main(vm: BotViewModel) {
+fun Main(vm: BotViewModel, rP: ResourceProvider) {
 
     var token by remember { mutableStateOf("") }
 
@@ -18,7 +18,8 @@ fun Main(vm: BotViewModel) {
 
     LaunchedEffect(token) {
         if (token.isNotEmpty() && token.length == 46) {
-            botToken = token; vm.botInfo(); botInfoVis = true } else botInfoVis = false
+            rP.botToken = token; vm.botInfo(); botInfoVis = true
+        } else botInfoVis = false
     }
 
     var butText by remember { mutableStateOf(if (vm.check()) "Start bot" else "Stop bot") }
@@ -26,12 +27,10 @@ fun Main(vm: BotViewModel) {
     var textFieldSize by remember { mutableStateOf(vm.check()) }
 
     MainColumn(vm, butText, token, textFieldSize, vm.botInfo.collectAsState(), botInfoVis,
-        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }
+        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP
     )
 
     DataCard(vm.listMessages.collectAsState(), textFieldSize)
-
-
 }
 
 

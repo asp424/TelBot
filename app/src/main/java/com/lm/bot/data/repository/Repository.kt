@@ -1,32 +1,30 @@
 package com.lm.bot.data.repository
 
 import com.google.gson.JsonObject
-import com.lm.bot.data.api.Handler
-import com.lm.bot.data.api.APIResponse
+import com.lm.bot.data.retrofit.ApiResponse
+import com.lm.bot.data.retrofit.Handler
 import com.lm.bot.data.model.Joke
-import com.lm.bot.data.retrofit.RetrofitInstances.animeApi
-import com.lm.bot.data.retrofit.RetrofitInstances.jokeApi
-import com.lm.bot.data.retrofit.RetrofitInstances.memesApi
+import com.lm.bot.data.retrofit.RetrofitProvider
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface Repository {
 
-    fun memes(): Flow<APIResponse<JsonObject>>
+    fun memes(): Flow<ApiResponse<JsonObject>>
 
-    fun anime(): Flow<APIResponse<JsonObject>>
+    fun anime(): Flow<ApiResponse<JsonObject>>
 
-    fun joke(): Flow<APIResponse<Joke>>
+    fun joke(): Flow<ApiResponse<Joke>>
 
     class Base @Inject constructor(
-        private val handler: Handler
+        private val handler: Handler, private val rP: RetrofitProvider
     ) : Repository {
 
-        override fun memes() = handler.task(memesApi.fetchMemes())
+        override fun memes() = handler.task(rP.memesApi.fetchMemes())
 
-        override fun anime() = handler.task(animeApi.fetchAnime())
+        override fun anime() = handler.task(rP.animeApi.fetchAnime())
 
-        override fun joke() = handler.task(jokeApi.fetchJokes())
+        override fun joke() = handler.task(rP.jokeApi.fetchJokes())
 
     }
 }
