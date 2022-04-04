@@ -12,7 +12,7 @@ import com.lm.bot.ui.cells.MainColumn
 @Composable
 fun Main(vm: BotViewModel, rP: BotDataProvider) {
 
-    var token by remember { mutableStateOf("") }
+    var token by remember { mutableStateOf(vm.id()) }
 
     var botInfoVis by remember { mutableStateOf(false) }
 

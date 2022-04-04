@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.lm.bot.core.BotApp
+import com.lm.bot.data.shared_pref.SharedPrefProvider
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.domain.BotRepository
 import com.lm.bot.notification.NotificationProvider
@@ -22,6 +23,9 @@ interface BotService {
         @Inject
         lateinit var botDataProvider: BotDataProvider
 
+        @Inject
+        lateinit var sP: SharedPrefProvider
+
         override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
             (applicationContext as BotApp).appComponent.inject(this)
             botRepository.startBot()
@@ -30,7 +34,7 @@ interface BotService {
         }
 
         override fun onDestroy() {
-            super.onDestroy(); stopSelf(); botDataProvider.job.cancel()
+            super.onDestroy(); stopSelf(); botDataProvider.job.cancel(); sP.saveId("")
         }
 
         override fun onBind(intent: Intent?): IBinder? = null

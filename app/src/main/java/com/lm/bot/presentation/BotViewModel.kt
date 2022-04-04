@@ -26,14 +26,14 @@ class BotViewModel @Inject constructor(
 
     fun check() = sP.read()
 
+    fun id() = sP.readId()
+
     fun botInfo() = viewModelScope.launch {
         clearInfo()
         botRepository.botInfo().collect { _botInfo.value = it }
     }
 
-    fun clearInfo() {
-        _botInfo.value = rP.init
-    }
+    private fun clearInfo() { _botInfo.value = rP.init }
 
     fun sendMessage(id: Long, text: String) = viewModelScope.launch {
         botRepository.sendMessage(id, text).collect {

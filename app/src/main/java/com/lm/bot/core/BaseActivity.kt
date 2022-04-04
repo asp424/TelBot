@@ -25,8 +25,8 @@ abstract class BaseActivity: ComponentActivity() {
 
     protected val vm: BotViewModel by viewModels { viewModelFactory }
 
-     fun startBot() { applicationContext.startForegroundService(botIntent); sP.run() }
+     fun startBot() { applicationContext.startForegroundService(botIntent); sP.run(); sP.saveId(dP.botToken) }
 
-     fun stopBot() { applicationContext.stopService(botIntent); sP.stop() }
+     fun stopBot() { applicationContext.stopService(botIntent); sP.stop(); sP.saveId("") }
 
 }

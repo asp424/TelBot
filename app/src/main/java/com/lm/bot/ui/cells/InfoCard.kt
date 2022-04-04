@@ -10,10 +10,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.lm.bot.presentation.BotViewModel
 
 
@@ -22,14 +24,15 @@ import com.lm.bot.presentation.BotViewModel
 fun InfoCard(
     bI: State<Pair<String, String?>>,
     botInfoVis: Boolean,
-    vm: BotViewModel
+    vm: BotViewModel,
+    textFieldSize: Boolean
 ) {
     var id by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
     LocalSoftwareKeyboardController.current?.apply {
         Card(
             modifier = Modifier
-                .size(240.dp, animateDpAsState(if (botInfoVis) 200.dp else 0.dp).value)
+                .size(240.dp, animateDpAsState(if (botInfoVis) if (!textFieldSize) 220.dp else 200.dp else 0.dp).value)
                 .padding(top = 3.dp)
         ) {
             SelectionContainer {
@@ -87,6 +90,9 @@ fun InfoCard(
                             modifier = Modifier.padding(top = 3.dp),
                             color = if (res == "Wrong token") Color.Red else Black
                         )
+                        Text(text = if (!textFieldSize) "Bot is running" else "", fontSize = 20.sp,
+                        color = Green
+                            )
                     }
                 }
             }

@@ -49,7 +49,7 @@ fun MainColumn(
                 else LocalContentColor.current.copy(alpha = 0.3f)
             )
         }
-        InfoCard(bI, botInfoVis, vm)
+        InfoCard(bI, botInfoVis, vm, textFieldSize)
         CustomButton(butText, onClick = { bT, tFS ->
             onClick(bT, tFS);
         }, rP, bI)
