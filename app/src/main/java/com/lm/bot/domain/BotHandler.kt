@@ -4,10 +4,10 @@ import androidx.compose.runtime.mutableStateListOf
 import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
 import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
-import com.google.gson.JsonObject
 import com.lm.bot.core.errors
 import com.lm.bot.core.hi
 import com.lm.bot.core.single
+import com.lm.bot.data.model.Joke
 import com.lm.bot.data.model.Message
 import com.lm.bot.data.repository.Repository
 import com.lm.retrofit.data.api.APIResponse
@@ -38,17 +38,18 @@ interface BotHandler {
 
         override fun onJoke(sc: CommandHandlerEnvironment) =
             CoroutineScope(IO).launch {
-                 repository.joke().collect{
-                     when (it) {
-                         is APIResponse.Success -> {
-                             if (it.data!!.type != single)
-                                 mess(sc, it.data.twoJoke) else mess(sc, it.data.joke)
-                         }
-                         is APIResponse.Failure -> mess(sc, errors)
-                         is APIResponse.Exception -> mess(sc, errors)
-                         else -> {}
-                     }
-                 }; cancel()
+                repository.joke().collect {
+                    when (it) {
+                        is APIResponse.Success -> {
+                            it.data?.apply {
+                                if (type != single) mess(sc, twoJoke) else mess(sc, joke)
+                            }
+                        }
+                        is APIResponse.Failure -> mess(sc, errors)
+                        is APIResponse.Exception -> mess(sc, errors)
+                        else -> {}
+                    }
+                }; cancel()
             }
 
         override fun onStart(sc: CommandHandlerEnvironment) {
@@ -67,12 +68,7 @@ interface BotHandler {
             sc.bot.sendMessage(sc.message.chat.id.cId, text)
         }
 
-        private val JsonObject.twoJoke
-            get() = "- ${get("setup").asString}\n- ${get("delivery").asString}"
-
-        private val JsonObject.joke get() = get("joke").asString
-
-        private val JsonObject.type get() = get("type").asString
+        private val Joke.twoJoke get() = "- $setup\n- $delivery"
 
         private val Long.cId get() = ChatId.fromId(this)
 

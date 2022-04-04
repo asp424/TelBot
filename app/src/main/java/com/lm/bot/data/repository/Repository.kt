@@ -6,6 +6,7 @@ import com.lm.bot.data.api.MemesApi
 import com.lm.retrofit.data.api.APIResponse
 import com.lm.bot.data.api.AnimeApi
 import com.lm.bot.data.api.JokeApi
+import com.lm.bot.data.model.Joke
 import com.lm.bot.data.retrofit.RetrofitInstances.animeApi
 import com.lm.bot.data.retrofit.RetrofitInstances.jokeApi
 import com.lm.bot.data.retrofit.RetrofitInstances.memesApi
@@ -18,7 +19,7 @@ interface Repository {
 
     fun anime(): Flow<APIResponse<JsonObject>>
 
-    fun joke(): Flow<APIResponse<JsonObject>>
+    fun joke(): Flow<APIResponse<Joke>>
 
     class Base @Inject constructor(
         private val handler: Handler

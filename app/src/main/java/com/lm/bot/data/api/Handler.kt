@@ -1,7 +1,6 @@
 package com.lm.bot.data.api
 
 
-import com.google.gson.JsonObject
 import com.lm.retrofit.data.api.APIResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -14,11 +13,11 @@ import javax.inject.Inject
 
 interface Handler {
 
-    fun task(call: Call<JsonObject>): Flow<APIResponse<JsonObject>>
+    fun <T> task(call: Call<T>): Flow<APIResponse<T>>
 
     class Base @Inject constructor() : Handler {
 
-        override fun task(call: Call<JsonObject>) =
+        override fun <T> task(call: Call<T>): Flow<APIResponse<T>> =
             callbackFlow {
                 Callback.apply { call.request { trySendBlocking(it) } }
                 awaitClose()

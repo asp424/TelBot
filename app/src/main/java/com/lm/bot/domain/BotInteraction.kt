@@ -51,14 +51,16 @@ interface BotInteraction {
 
         private val startBot
             get() = callbackFlow {
-                with(tBot) { startPolling(); awaitClose { stopPolling() } }
+                with(tBot) {
+                    startPolling(); awaitClose { stopPolling() }
+                }
             }.flowOn(IO)
 
         override fun botInfo() = callbackFlow {
             with(bot { token = botToken }.getMe()) {
                 fold({
                     it?.result?.apply { trySendBlocking(Pair(firstName, username)) }
-                }, { trySendBlocking(Pair("Wrong token", "")) })
+                }, { trySendBlocking(wrong) })
                 awaitClose()
             }
         }.flowOn(IO)
@@ -67,6 +69,8 @@ interface BotInteraction {
             job.apply { if (isActive) cancel() }
             job = CoroutineScope(IO).launch { startBot.collect { messagesFlow.value = it } }
         }
+
+        private val wrong by lazy { Pair("Wrong token", "") }
 
         override var job: Job = Job()
 

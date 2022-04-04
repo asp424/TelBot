@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Token
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -19,15 +19,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CustomTextField(
-    keyboardOptions: KeyboardType,
-    modifier: Modifier,
-    leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
-    placeholderText: String = "Placeholder",
-    fontSize: TextUnit = MaterialTheme.typography.body2.fontSize,
+    placeholderText: String = "",
     res: (String) -> Unit,
     textFieldSize: Boolean,
     token: String
@@ -39,11 +36,11 @@ fun CustomTextField(
         cursorBrush = SolidColor(MaterialTheme.colors.primary),
         textStyle = LocalTextStyle.current.copy(
             color = MaterialTheme.colors.onSurface,
-            fontSize = fontSize
+            fontSize = 16.sp
         ),
         decorationBox = { innerTextField ->
             Row(
-                modifier
+                Modifier
                     .background(
                         MaterialTheme.colors.surface,
                         RoundedCornerShape(percent = 20)
@@ -61,20 +58,25 @@ fun CustomTextField(
                     .width(LocalConfiguration.current.screenWidthDp.dp - 110.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (leadingIcon != null) leadingIcon()
+                Icon(
+                    Icons.Filled.Token,
+                    null,
+                    tint = LocalContentColor.current.copy(alpha = 0.3f)
+                )
                 Box(Modifier.weight(1f)) {
                     if (token.isEmpty()) Text(
                         placeholderText,
                         style = LocalTextStyle.current.copy(
                             color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
-                            fontSize = fontSize
+                            fontSize = 16.sp
                         )
                     )
                     innerTextField()
                 }
                 if (trailingIcon != null) trailingIcon()
             }
-        }, keyboardOptions = KeyboardOptions(keyboardType = keyboardOptions)
+        }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text,)
+
     )
 }
 
