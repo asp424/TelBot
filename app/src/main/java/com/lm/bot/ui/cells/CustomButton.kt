@@ -15,26 +15,27 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.lm.bot.domain.BotInteraction
 import com.lm.bot.presentation.BotViewModel
+import com.lm.bot.presentation.MainActivity
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CustomButton(vm: BotViewModel, butText: String, onClick: (String, Boolean) -> Unit) {
     LocalSoftwareKeyboardController.current?.apply {
-        LocalContext.current.also { cont ->
+        (LocalContext.current as MainActivity).also { cont ->
             Button(
                 onClick = {
                     if (butText == "Start bot") {
                         BotInteraction.Base.botToken.apply {
                             if (isNotEmpty() && length == 46) {
                                 hide()
-                                vm.startBot(cont)
+                                cont.startBot()
                                 onClick("Stop bot", false)
                                 toast(cont, "Bot started")
                             } else toast(cont, "Wrong token format")
                         }
                     } else {
                         hide()
-                        vm.stopBot(cont); toast(cont, "Bot stopped")
+                        cont.stopBot(); toast(cont, "Bot stopped")
                         onClick("Start bot", true)
                     }
                 },

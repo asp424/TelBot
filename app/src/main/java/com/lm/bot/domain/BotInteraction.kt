@@ -71,8 +71,6 @@ interface BotInteraction {
 
         override var job: Job = Job()
 
-        private val wrong by lazy { Pair("Wrong token", "") }
-
         private val start by lazy { "start" }
 
         private val joke by lazy { "joke" }
@@ -80,6 +78,8 @@ interface BotInteraction {
         companion object {
             var botToken = "";
             var id = 0
+            val wrong by lazy { Pair("Wrong token", "") }
+            val init by lazy { Pair("", "") }
         }
     }
 }
