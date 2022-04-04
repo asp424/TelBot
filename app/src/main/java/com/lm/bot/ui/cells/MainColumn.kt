@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.unit.dp
-import com.lm.bot.core.ResourceProvider
+import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.theme.Teal200
 
@@ -23,12 +23,12 @@ fun MainColumn(
     token: String, textFieldSize: Boolean,
     bI: State<Pair<String, String?>>,
     botInfoVis: Boolean,
-    tokenV: (String) -> Unit, onClick: (String, Boolean) -> Unit, rP: ResourceProvider
+    tokenV: (String) -> Unit, onClick: (String, Boolean) -> Unit, rP: BotDataProvider
 ) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.Gray).padding(bottom = 50.dp),
+            .background(Color.Gray).padding(bottom = 140.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -46,7 +46,7 @@ fun MainColumn(
             ) Teal200
             else LocalContentColor.current.copy(alpha = 0.3f)
         )
-        InfoCard(bI, botInfoVis)
+        InfoCard(bI, botInfoVis, vm)
         CustomButton(vm, butText, onClick = { bT, tFS ->
             onClick(bT, tFS); tokenV("")
         }, rP)

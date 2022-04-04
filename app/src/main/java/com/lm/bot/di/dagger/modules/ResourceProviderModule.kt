@@ -1,15 +1,15 @@
 package com.lm.bot.di.dagger.modules
 
 import com.lm.bot.core.ResourceProvider
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import javax.inject.Singleton
 
-
 @Module
-class ResourceProviderModule {
+interface ResourceProviderModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideResourceProvider():ResourceProvider = ResourceProvider()
+    fun bindsResourceProvider(resourceProvider: ResourceProvider.Base): ResourceProvider
+
 }

@@ -10,7 +10,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
         RepositoryModule::class, SharedPrefProviderModule::class, ViewModelModules::class,
         ViewModelFactoryModule::class, BotServiseModule::class, HandlerModule::class,
         NotificationProviderModule::class, BotHandlerModule::class, ResourceProviderModule::class,
-        RetrofitProviderModule::class
+        RetrofitProviderModule::class, BotProviderModule::class, BotCallbacksModule::class,
+        BotDataProviderModule::class
     ]
 )
 interface MapModule

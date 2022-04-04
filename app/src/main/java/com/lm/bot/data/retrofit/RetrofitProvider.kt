@@ -16,9 +16,7 @@ interface RetrofitProvider {
 
     val jokeApi: JokeApi
 
-    class Base @Inject constructor(
-        private val rP: ResourceProvider
-    ) : RetrofitProvider {
+    class Base @Inject constructor(private val rP: ResourceProvider) : RetrofitProvider {
 
         override val memesApi by lazy {
             Retrofit.Builder()

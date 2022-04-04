@@ -11,6 +11,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (applicationContext as BotApp).appComponent.injectAct(this)
-        setContent { Main(vm, rP) }
+        setContent { Main(vm, dP) }
     }
 }

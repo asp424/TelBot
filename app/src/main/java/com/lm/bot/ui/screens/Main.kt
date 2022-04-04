@@ -2,7 +2,7 @@ package com.lm.bot.ui.screens
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
-import com.lm.bot.core.ResourceProvider
+import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.cells.DataCard
 import com.lm.bot.ui.cells.MainColumn
@@ -10,7 +10,7 @@ import com.lm.bot.ui.cells.MainColumn
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Main(vm: BotViewModel, rP: ResourceProvider) {
+fun Main(vm: BotViewModel, rP: BotDataProvider) {
 
     var token by remember { mutableStateOf("") }
 

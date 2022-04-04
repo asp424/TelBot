@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.lm.bot.core.ResourceProvider
-import com.lm.bot.domain.BotInteraction
+import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.presentation.MainActivity
 
@@ -24,7 +24,7 @@ fun CustomButton(
     vm: BotViewModel,
     butText: String,
     onClick: (String, Boolean) -> Unit,
-    rP: ResourceProvider
+    rP: BotDataProvider
 ) {
     LocalSoftwareKeyboardController.current?.apply {
         (LocalContext.current as MainActivity).also { cont ->
