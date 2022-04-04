@@ -2,10 +2,7 @@ package com.lm.bot.data.repository
 
 import com.google.gson.JsonObject
 import com.lm.bot.data.api.Handler
-import com.lm.bot.data.api.MemesApi
-import com.lm.retrofit.data.api.APIResponse
-import com.lm.bot.data.api.AnimeApi
-import com.lm.bot.data.api.JokeApi
+import com.lm.bot.data.api.APIResponse
 import com.lm.bot.data.model.Joke
 import com.lm.bot.data.retrofit.RetrofitInstances.animeApi
 import com.lm.bot.data.retrofit.RetrofitInstances.jokeApi

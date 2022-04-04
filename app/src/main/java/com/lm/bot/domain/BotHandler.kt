@@ -10,7 +10,7 @@ import com.lm.bot.core.single
 import com.lm.bot.data.model.Joke
 import com.lm.bot.data.model.Message
 import com.lm.bot.data.repository.Repository
-import com.lm.retrofit.data.api.APIResponse
+import com.lm.bot.data.api.APIResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job

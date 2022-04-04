@@ -16,7 +16,7 @@ interface NotificationProvider {
 
         override fun notification() = NotificationCompat.Builder(context, channel)
             .setOngoing(true)
-            .setContentTitle("       Bot started")
+            .setContentTitle("      Bot started")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setPriority(PRIORITY_MIN)
             .setCategory(CATEGORY_SERVICE)

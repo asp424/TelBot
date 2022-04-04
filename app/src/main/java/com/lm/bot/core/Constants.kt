@@ -1,7 +1,9 @@
 package com.lm.bot.core
 
-const val hi = "Hi there!"
+val hi by lazy { "Hi there!" }
 
-const val errors = "Error. Try again."
+val errors by lazy { "Error. Try again." }
 
-const val single = "single"
+val single by lazy { "single" }
+
+val wrong by lazy { Pair("Wrong token", "") }

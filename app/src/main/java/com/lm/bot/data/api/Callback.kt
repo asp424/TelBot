@@ -1,6 +1,5 @@
 package com.lm.bot.data.api
 
-import com.lm.retrofit.data.api.APIResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

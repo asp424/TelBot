@@ -20,7 +20,7 @@ interface BotService {
 
         override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
             appComponent.inject(this)
-            botInteraction.start()
+            botInteraction.startBot()
             startForeground(101, notification.notification())
             return START_STICKY
         }

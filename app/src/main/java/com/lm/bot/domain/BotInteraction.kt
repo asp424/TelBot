@@ -6,6 +6,7 @@ import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.network.fold
+import com.lm.bot.core.wrong
 import com.lm.bot.data.model.Message
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -23,7 +24,7 @@ import javax.inject.Inject
 
 interface BotInteraction {
 
-    fun start()
+    fun startBot()
 
     fun botInfo(): Flow<Pair<String, String?>>
 
@@ -49,7 +50,7 @@ interface BotInteraction {
                 }
             }.build()
 
-        private val startBot
+        private val driveBot
             get() = callbackFlow {
                 with(tBot) {
                     startPolling(); awaitClose { stopPolling() }
@@ -65,18 +66,13 @@ interface BotInteraction {
             }
         }.flowOn(IO)
 
-        override fun start() {
+        override fun startBot() {
             job.apply { if (isActive) cancel() }
-            job = CoroutineScope(IO).launch { startBot.collect { messagesFlow.value = it } }
+            job = CoroutineScope(IO).launch { driveBot.collect { messagesFlow.value = it } }
         }
-
-        private val wrong by lazy { Pair("Wrong token", "") }
 
         override var job: Job = Job()
 
-        companion object {
-            var botToken = "";
-            var id = 0
-        }
+        companion object { var botToken = ""; var id = 0 }
     }
 }

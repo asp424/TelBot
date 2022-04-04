@@ -1,4 +1,4 @@
-package com.lm.retrofit.data.api
+package com.lm.bot.data.api
 
 import retrofit2.Response
 
