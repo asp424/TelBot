@@ -7,4 +7,5 @@ import retrofit2.http.GET
 interface MemesApi {
     @GET("get_memes")
     fun fetchMemes(): Call<JsonObject>
+
 }

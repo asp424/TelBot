@@ -24,11 +24,12 @@ import com.lm.bot.presentation.MainActivity
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CustomButton(
+inline fun CustomButton(
     butText: String,
-    onClick: (String, Boolean) -> Unit,
+    crossinline onClick: (String, Boolean) -> Unit,
     rP: BotDataProvider,
-    bI: State<Pair<String, String?>>
+    bI: State<Pair<String, String?>>,
+    vm: BotViewModel
 ) {
     LocalSoftwareKeyboardController.current?.apply {
         (LocalContext.current as MainActivity).also { cont ->
@@ -47,7 +48,8 @@ fun CustomButton(
                         hide()
                         cont.stopBot(); toast(cont, "Bot stopped")
                         onClick("Start bot", true)
-                        //vm.clearInfo()
+                        vm.clearInfo()
+                        vm.botInfo()
                     }
                 },
                 modifier = Modifier.padding(top = 10.dp).height(
@@ -67,5 +69,5 @@ fun CustomButton(
     }
 }
 
-private fun toast(context: Context, text: String) =
+fun toast(context: Context, text: String) =
     Toast.makeText(context, text, Toast.LENGTH_LONG).show()

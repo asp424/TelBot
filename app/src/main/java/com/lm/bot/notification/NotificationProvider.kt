@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.NotificationManager.IMPORTANCE_LOW
 import android.app.NotificationManager.IMPORTANCE_NONE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.Color.BLUE
@@ -34,7 +35,7 @@ interface NotificationProvider {
         }
 
         private val createChannel by lazy {
-            NotificationChannel(rP.channel, rP.name, IMPORTANCE_NONE)
+            NotificationChannel(rP.channel, rP.name, IMPORTANCE_LOW)
                 .apply {
                     lightColor = BLUE
                     lockscreenVisibility = VISIBILITY_PRIVATE

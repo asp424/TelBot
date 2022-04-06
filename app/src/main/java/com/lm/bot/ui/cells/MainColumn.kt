@@ -17,12 +17,16 @@ import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.theme.Teal200
 
 @Composable
-fun MainColumn(
-    vm: BotViewModel, butText: String,
-    token: String, textFieldSize: Boolean,
+inline fun MainColumn(
+    vm: BotViewModel,
+    butText: String,
+    token: String,
+    textFieldSize: Boolean,
     bI: State<Pair<String, String?>>,
     botInfoVis: Boolean,
-    tokenV: (String) -> Unit, onClick: (String, Boolean) -> Unit, rP: BotDataProvider
+    crossinline tokenV: (String) -> Unit,
+    crossinline onClick: (String, Boolean) -> Unit,
+    rP: BotDataProvider
 ) {
     Column(
         Modifier
@@ -52,6 +56,6 @@ fun MainColumn(
         InfoCard(bI, botInfoVis, vm, textFieldSize)
         CustomButton(butText, onClick = { bT, tFS ->
             onClick(bT, tFS);
-        }, rP, bI)
+        }, rP, bI, vm)
     }
 }

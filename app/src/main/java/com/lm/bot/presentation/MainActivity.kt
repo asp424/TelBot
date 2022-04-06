@@ -1,6 +1,7 @@
 package com.lm.bot.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import com.lm.bot.core.BaseActivity
 import com.lm.bot.core.BotApp

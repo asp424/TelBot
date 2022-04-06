@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("UNCHECKED_CAST")
 class BotViewModelFactory @Inject constructor(
     private val viewModelMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
@@ -19,7 +18,10 @@ class BotViewModelFactory @Inject constructor(
                 }
             }
         }
+
         if (viewModel == null) throw IllegalArgumentException("Unknown model class $modelClass")
+
         return viewModel.get() as T
     }
 }
+

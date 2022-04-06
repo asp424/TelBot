@@ -1,19 +1,17 @@
 package com.lm.bot.domain
 
-import android.util.Log
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.text
+import com.lm.bot.core.PS
 import com.lm.bot.core.ResourceProvider
-import com.lm.bot.data.model.Message
-import kotlinx.coroutines.channels.ProducerScope
 import javax.inject.Inject
 
 interface BotProvider {
 
-    fun pollingBot(scope: ProducerScope<MutableList<Message>>): Bot
+    fun pollingBot(scope: PS): Bot
 
     fun handleBot(): Bot
 
@@ -21,8 +19,9 @@ interface BotProvider {
         private val rP: ResourceProvider,
         private val botCallbacks: BotCallbacks,
         private val bP: BotDataProvider
-        ) : BotProvider {
-        override fun pollingBot(scope: ProducerScope<MutableList<Message>>) =
+    ) : BotProvider {
+
+        override fun pollingBot(scope: PS) =
             Bot.Builder().also { bB ->
                 bB.token = bP.botToken
                 bB.dispatch {

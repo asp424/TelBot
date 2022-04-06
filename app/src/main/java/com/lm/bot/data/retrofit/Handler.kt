@@ -1,6 +1,7 @@
 package com.lm.bot.data.retrofit
 
 
+import com.lm.bot.data.retrofit.Callback.request
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -15,10 +16,7 @@ interface Handler {
     fun <T> task(call: Call<T>): Flow<ApiResponse<T>>
 
     class Base @Inject constructor() : Handler {
-
-        override fun <T> task(call: Call<T>) = callbackFlow {
-            Callback.apply { call.request { trySendBlocking(it) } }
-            awaitClose()
-        }.flowOn(IO)
+        override fun <T> task(call: Call<T>) = callbackFlow { call.request { trySendBlocking(it) }
+            awaitClose() }.flowOn(IO)
     }
 }

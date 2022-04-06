@@ -1,6 +1,8 @@
 package com.lm.bot.data.repository
 
 import com.google.gson.JsonObject
+import com.lm.bot.core.FJ
+import com.lm.bot.core.Fj
 import com.lm.bot.data.model.Joke
 import com.lm.bot.data.retrofit.ApiResponse
 import com.lm.bot.data.retrofit.Handler
@@ -10,11 +12,11 @@ import javax.inject.Inject
 
 interface Repository {
 
-    fun memes(): Flow<ApiResponse<JsonObject>>
+    fun memes(): FJ
 
-    fun anime(): Flow<ApiResponse<JsonObject>>
+    fun anime(): FJ
 
-    fun joke(): Flow<ApiResponse<Joke>>
+    fun joke(): Fj
 
     class Base @Inject constructor(
         private val handler: Handler,

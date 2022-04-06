@@ -24,9 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CustomTextField(
+inline fun CustomTextField(
     placeholderText: String = "",
-    res: (String) -> Unit,
+    crossinline res: (String) -> Unit,
     textFieldSize: Boolean,
     token: String,
     color: Color,

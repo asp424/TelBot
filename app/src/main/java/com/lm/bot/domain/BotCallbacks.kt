@@ -1,42 +1,35 @@
 package com.lm.bot.domain
 
 import androidx.compose.runtime.mutableStateListOf
-import com.github.kotlintelegrambot.dispatcher.handlers.CommandHandlerEnvironment
-import com.github.kotlintelegrambot.dispatcher.handlers.TextHandlerEnvironment
 import com.github.kotlintelegrambot.entities.ChatId
-import com.lm.bot.core.ResourceProvider
+import com.lm.bot.core.*
 import com.lm.bot.data.model.Joke
 import com.lm.bot.data.model.Message
 import com.lm.bot.data.repository.Repository
 import com.lm.bot.data.retrofit.ApiResponse
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.ChannelResult
-import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface BotCallbacks {
 
-    fun onJoke(sc: CommandHandlerEnvironment)
+    fun onJoke(sc: CH)
 
-    fun onStart(sc: CommandHandlerEnvironment)
+    fun onStart(sc: CH)
 
-    fun onText(
-        scope: TextHandlerEnvironment,
-        producerScope: ProducerScope<MutableList<Message>>
-    ): ChannelResult<Unit>
+    fun onText(scope: TH, pS: PS): CR
 
-    fun reCallMessage(sc: CommandHandlerEnvironment, text: String)
+    fun reCallMessage(sc: CH, text: String)
 
     class Base @Inject constructor(
         private val repository: Repository,
         private val rP: ResourceProvider
     ) : BotCallbacks {
-        override fun onJoke(sc: CommandHandlerEnvironment) {
-            CoroutineScope(Dispatchers.IO).launch {
+        override fun onJoke(sc: CH) {
+            CoroutineScope(IO).launch {
                 repository.joke().collect {
                     when (it) {
                         is ApiResponse.Success -> {
@@ -52,19 +45,15 @@ interface BotCallbacks {
             }
         }
 
-        override fun onStart(sc: CommandHandlerEnvironment) {
+        override fun onStart(sc: CH) {
             sc.apply { bot.sendMessage(message.chat.id.cId, rP.hi) }
         }
 
-        override fun onText(
-            scope: TextHandlerEnvironment,
-            producerScope: ProducerScope<MutableList<Message>>
-        ): ChannelResult<Unit> {
-            scope.apply { list.add(Message(message.chat.id, text, message.chat.firstName!!)) }
-            return producerScope.trySendBlocking(list)
-        }
+        override fun onText(scope: TH, pS: PS): CR =
+            pS.trySendBlocking(list.apply {  scope.apply {
+                add(Message(message.chat.id, text, message.chat.firstName!!)) }})
 
-        override fun reCallMessage(sc: CommandHandlerEnvironment, text: String) {
+        override fun reCallMessage(sc: CH, text: String) {
             sc.bot.sendMessage(sc.message.chat.id.cId, text)
         }
 
@@ -76,3 +65,7 @@ interface BotCallbacks {
 
     }
 }
+
+
+
+

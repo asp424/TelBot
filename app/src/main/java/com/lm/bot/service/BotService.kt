@@ -3,6 +3,7 @@ package com.lm.bot.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import com.lm.bot.core.BotApp
 import com.lm.bot.data.shared_pref.SharedPrefProvider
 import com.lm.bot.domain.BotDataProvider
@@ -34,7 +35,14 @@ interface BotService {
         }
 
         override fun onDestroy() {
-            super.onDestroy(); stopSelf(); botDataProvider.job.cancel(); sP.saveId("")
+            super.onDestroy();stopSelf(); botDataProvider.job.cancel()
+            sP.saveId(""); sP.stop()
+        }
+
+        override fun onTaskRemoved(rootIntent: Intent?) {
+            super.onTaskRemoved(rootIntent)
+            ;stopSelf(); botDataProvider.job.cancel()
+            sP.saveId(""); sP.stop()
         }
 
         override fun onBind(intent: Intent?): IBinder? = null

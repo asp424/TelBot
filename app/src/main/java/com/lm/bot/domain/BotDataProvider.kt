@@ -1,5 +1,6 @@
 package com.lm.bot.domain
 
+import com.lm.bot.core.MF
 import com.lm.bot.data.model.Message
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -7,7 +8,7 @@ import javax.inject.Inject
 
 interface BotDataProvider {
 
-    val messagesFlow: MutableStateFlow<MutableList<Message>>
+    val messagesFlow: MF
 
     var job: Job
 

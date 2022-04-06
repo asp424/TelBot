@@ -32,58 +32,24 @@ fun InfoCard(
     LocalSoftwareKeyboardController.current?.apply {
         Card(
             modifier = Modifier
-                .size(240.dp, animateDpAsState(if (botInfoVis) if (!textFieldSize) 220.dp else 200.dp else 0.dp).value)
+                .size(240.dp, animateDpAsState(if (botInfoVis) if (!textFieldSize) 76.dp else 54.dp else 0.dp).value)
                 .padding(top = 3.dp)
         ) {
             SelectionContainer {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     bI.value.first.also { res ->
-                        CustomTextField(
-                            placeholderText = "ChatId",
-                            token = id,
-                            res = { id = it },
-                            textFieldSize = res != "Wrong token" && res.isNotEmpty(),
-                            color = Black,
-                            tint = LocalContentColor.current.copy(alpha = 0.3f)
-                        )
-                        CustomTextField(
-                            placeholderText = "Message",
-                            token = message,
-                            res = { message = it },
-                            textFieldSize = res != "Wrong token" && res.isNotEmpty(),
-                            color = Black,
-                            tint = LocalContentColor.current.copy(alpha = 0.3f)
-                        )
-                        Button(
-                            onClick = {
-                                if (message.isNotEmpty() && id.isNotEmpty())
-                                    vm.sendMessage(id.toLong(), message)
-                                message = ""
-                                hide()
-                            },
-                            modifier = Modifier
-                                .padding(top = 3.dp)
-                                .height(
-                                    animateDpAsState(
-                                        if (res != "Wrong token" && res.isNotEmpty())
-                                            LocalConfiguration.current.screenHeightDp.dp / 18
-                                        else 0.dp
-                                    ).value
-                                ),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Black
-                            )
-                        ) { Text(text = "Send message", color = Color.White) }
                         Box {
                             Text(
                                 text = res, textAlign = TextAlign.Center,
                                 modifier = Modifier.padding(
                                     top =
-                                    if (res == "Wrong token") 76.dp else 6.dp
+                                    if (res == "Wrong token") 16.dp else 6.dp
                                 ),
                                 color = if (res == "Wrong token") Color.Red else Black
                             )
-                            if (res == "") CircularProgressIndicator(modifier = Modifier.padding(top = 70.dp))
+                            if (res == "") CircularProgressIndicator(modifier = Modifier.padding(top = 12.dp)
+                                .size(20.dp)
+                            )
                         }
                         Text(
                             text = bI.value.second!!, textAlign = TextAlign.Center,

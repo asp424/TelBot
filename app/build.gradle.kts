@@ -28,12 +28,16 @@ android {
             }
         }
 
-        kotlinOptions { jvmTarget = "1.8" }
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xjvm-default=all", "-opt-in=kotlin.RequiresOptIn")
+        }
+
         buildFeatures {
             compose = true
         }
 
-        composeOptions { kotlinCompilerExtensionVersion = composeCompilerVersion }
+        composeOptions { kotlinCompilerExtensionVersion = composeVersion }
         packagingOptions { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
     }
 }

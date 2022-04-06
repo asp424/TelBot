@@ -10,7 +10,7 @@ import java.io.File
 fun RepositoryHandler.myRepository() {
     google()
     mavenCentral()
-    listOf("https://jitpack.io", "https://maven.google.com", "https://chaquo.com/maven").forEach { maven(it) }
+    listOf("https://jitpack.io", "https://maven.google.com").forEach { maven(it) }
 }
 
 fun builder(value: Any, file: File? = null) {
