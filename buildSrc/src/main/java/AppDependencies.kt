@@ -21,11 +21,15 @@ fun DependencyHandlerScope.impl() {
         ).forEach { addD(dep = it) }
     }
     addD(dep = "androidx.activity:activity-compose:1.4.0")
-    addD(dep = "com.squareup.leakcanary:leakcanary-android:2.8.1")
+    //addD(dep = "com.squareup.leakcanary:leakcanary-android:2.8.1")
+
+    //Recycler
+    addD(dep = "androidx.recyclerview:recyclerview:1.1.0")
 
     //Base
     addD(dep = "androidx.core:core-ktx:1.8.0-alpha06")
     addD(dep = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    addD(dep = "androidx.appcompat:appcompat:1.4.1")
 
     //Dagger-2
     addD(dep = "com.google.dagger:dagger:2.41")

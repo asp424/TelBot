@@ -44,7 +44,6 @@ interface BotHandler {
             }
         }.flowOn(IO)
 
-
         private val driveBot
             get() = callbackFlow {
                 with(botProvider.pollingBot(this)) { startPolling(); awaitClose { stopPolling() } }

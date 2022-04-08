@@ -31,7 +31,7 @@ interface BotService {
             (applicationContext as BotApp).appComponent.inject(this)
             botRepository.startBot()
             startForeground(101, notification.notification())
-            return START_STICKY
+            return START_REDELIVER_INTENT
         }
 
         override fun onDestroy() {

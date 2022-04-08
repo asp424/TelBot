@@ -29,7 +29,6 @@ fun Main(vm: BotViewModel, rP: BotDataProvider) {
     MainColumn(vm, butText, token, textFieldSize, vm.botInfo.collectAsState(), botInfoVis,
         { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP
     )
-
 }
 
 

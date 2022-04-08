@@ -3,10 +3,14 @@ package com.lm.bot.core
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.lm.bot.data.shared_pref.SharedPrefProvider
+import com.lm.bot.databinding.ActivityMainBinding
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.presentation.BotViewModelFactory
+import com.lm.bot.ui.recycler_view.AdapterImpl
+import com.lm.bot.ui.recycler_view.RvData
 import javax.inject.Inject
 
 abstract class BaseActivity: ComponentActivity() {
@@ -22,6 +26,12 @@ abstract class BaseActivity: ComponentActivity() {
 
     @Inject
     lateinit var dP: BotDataProvider
+
+    @Inject
+    lateinit var adapter: AdapterImpl
+
+    @Inject
+    lateinit var rvData: RvData
 
     protected val vm: BotViewModel by viewModels { viewModelFactory }
 
