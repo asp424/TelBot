@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.unit.dp
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
+import com.lm.bot.ui.recycler_view.AdapterHandler
 import com.lm.bot.ui.theme.Teal200
 
 @Composable
@@ -26,7 +26,8 @@ inline fun MainColumn(
     botInfoVis: Boolean,
     crossinline tokenV: (String) -> Unit,
     crossinline onClick: (String, Boolean) -> Unit,
-    rP: BotDataProvider
+    rP: BotDataProvider,
+    adapterHandler: AdapterHandler
 ) {
     Column(
         Modifier
@@ -36,8 +37,9 @@ inline fun MainColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        DataCard(vm.listMessages.collectAsState(), textFieldSize)
-        Box(modifier = Modifier.padding(top = animateDpAsState(if (!textFieldSize) 0.dp else 60.dp).value)) {
+        DataCard(textFieldSize, adapterHandler, vm)
+        Box(modifier = Modifier.padding(top = animateDpAsState(if (!textFieldSize)
+            0.dp else 60.dp).value)) {
             CustomTextField(
                 placeholderText = "Token",
                 token = token,

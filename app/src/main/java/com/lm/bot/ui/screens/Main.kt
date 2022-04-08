@@ -4,13 +4,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
-import com.lm.bot.ui.cells.DataCard
 import com.lm.bot.ui.cells.MainColumn
+import com.lm.bot.ui.recycler_view.AdapterHandler
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Main(vm: BotViewModel, rP: BotDataProvider) {
+fun Main(vm: BotViewModel, rP: BotDataProvider, adapterHandler: AdapterHandler) {
 
     var token by remember { mutableStateOf(vm.id()) }
 
@@ -27,7 +27,7 @@ fun Main(vm: BotViewModel, rP: BotDataProvider) {
     var textFieldSize by remember { mutableStateOf(vm.check()) }
 
     MainColumn(vm, butText, token, textFieldSize, vm.botInfo.collectAsState(), botInfoVis,
-        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP
+        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP, adapterHandler
     )
 }
 

@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.presentation.BotViewModel
 
 
@@ -27,12 +28,11 @@ fun InfoCard(
     vm: BotViewModel,
     textFieldSize: Boolean
 ) {
-    var id by remember { mutableStateOf("") }
-    var message by remember { mutableStateOf("") }
     LocalSoftwareKeyboardController.current?.apply {
         Card(
             modifier = Modifier
-                .size(240.dp, animateDpAsState(if (botInfoVis) if (!textFieldSize) 76.dp else 54.dp else 0.dp).value)
+                .size(240.dp, animateDpAsState(if (botInfoVis) if (!textFieldSize)
+                    76.dp else 54.dp else 0.dp).value)
                 .padding(top = 3.dp)
         ) {
             SelectionContainer {

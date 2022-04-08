@@ -9,8 +9,7 @@ import com.lm.bot.databinding.ActivityMainBinding
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.presentation.BotViewModelFactory
-import com.lm.bot.ui.recycler_view.AdapterImpl
-import com.lm.bot.ui.recycler_view.RvData
+import com.lm.bot.ui.recycler_view.*
 import javax.inject.Inject
 
 abstract class BaseActivity: ComponentActivity() {
@@ -28,10 +27,7 @@ abstract class BaseActivity: ComponentActivity() {
     lateinit var dP: BotDataProvider
 
     @Inject
-    lateinit var adapter: AdapterImpl
-
-    @Inject
-    lateinit var rvData: RvData
+    lateinit var adapterHandler: AdapterHandlerImpl
 
     protected val vm: BotViewModel by viewModels { viewModelFactory }
 
