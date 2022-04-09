@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.lm.bot.data.shared_pref.SharedPrefProvider
-import com.lm.bot.databinding.ActivityMainBinding
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.presentation.BotViewModelFactory
@@ -27,7 +26,7 @@ abstract class BaseActivity: ComponentActivity() {
     lateinit var dP: BotDataProvider
 
     @Inject
-    lateinit var adapterHandler: AdapterHandlerImpl
+    lateinit var adapter: AdapterImpl
 
     protected val vm: BotViewModel by viewModels { viewModelFactory }
 

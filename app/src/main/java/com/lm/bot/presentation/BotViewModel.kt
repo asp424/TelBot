@@ -1,5 +1,6 @@
 package com.lm.bot.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lm.bot.core.ResourceProvider
@@ -33,9 +34,16 @@ class BotViewModel @Inject constructor(
         _botInfo.value = rP.init
     }
 
+    val message get() = botDataProvider.messagesFlow.asStateFlow()
+    init {
 
 
-    val listMessages get() = botDataProvider.messagesFlow.asStateFlow()
+        viewModelScope.launch {
+            message.collect {
+                Log.d("My", it.firstName.  toString())
+            }
+        }
+    }
 }
 
 

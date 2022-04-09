@@ -1,5 +1,6 @@
 package com.lm.bot.domain
 
+import android.util.Log
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
@@ -26,7 +27,8 @@ interface BotProvider {
                 bB.token = bP.botToken
                 bB.dispatch {
                     botCallbacks.apply {
-                        text { onText(this, scope) }
+                        text {
+                            onText(this, scope) }
                         command(rP.start) { onStart(this) }
                         command(rP.joke) { onJoke(this) }
                     }

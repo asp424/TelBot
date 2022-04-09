@@ -1,18 +1,22 @@
 package com.lm.bot.ui.recycler_view
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.RecyclerView
+import com.lm.bot.core.RA
 import com.lm.bot.data.model.Message
-import com.lm.bot.databinding.RvItemBinding
 
 interface AdapterHandler {
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(newList: MutableList<Message>): MutableList<Message>
+    fun updateList(message: Message, adapter: RA)
 
-    val Int.deleteItem: Unit
+    fun deleteItem(position: Int, adapter: RA)
+
+    fun item(item: ComposeView, position: Int, adapter: RA)
 
     var list: MutableList<Message>
 

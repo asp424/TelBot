@@ -1,6 +1,8 @@
 package com.lm.bot.domain
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.github.kotlintelegrambot.entities.ChatId
 import com.lm.bot.core.*
 import com.lm.bot.data.model.Joke
@@ -20,7 +22,7 @@ interface BotCallbacks {
 
     fun onStart(sc: CH)
 
-    fun onText(scope: TH, pS: PS): CR
+    fun onText(scope: TH, pS: PS): TH
 
     fun reCallMessage(sc: CH, text: String)
 
@@ -49,9 +51,11 @@ interface BotCallbacks {
             sc.apply { bot.sendMessage(message.chat.id.cId, rP.hi) }
         }
 
-        override fun onText(scope: TH, pS: PS): CR =
-            pS.trySendBlocking(list.apply {  scope.apply {
-                add(Message(message.chat.id, text, message.chat.firstName!!)) }})
+        override fun onText(scope: TH, pS: PS) =
+            scope.apply {
+                list.add(Message(message.chat.id, text, message.chat.firstName!!))
+                pS.trySendBlocking(list)
+            }
 
         override fun reCallMessage(sc: CH, text: String) {
             sc.bot.sendMessage(sc.message.chat.id.cId, text)

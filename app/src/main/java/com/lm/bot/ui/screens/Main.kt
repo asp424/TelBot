@@ -6,11 +6,12 @@ import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.cells.MainColumn
 import com.lm.bot.ui.recycler_view.AdapterHandler
+import com.lm.bot.ui.recycler_view.AdapterImpl
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Main(vm: BotViewModel, rP: BotDataProvider, adapterHandler: AdapterHandler) {
+fun Main(vm: BotViewModel, rP: BotDataProvider, adapter: AdapterImpl) {
 
     var token by remember { mutableStateOf(vm.id()) }
 
@@ -27,7 +28,7 @@ fun Main(vm: BotViewModel, rP: BotDataProvider, adapterHandler: AdapterHandler) 
     var textFieldSize by remember { mutableStateOf(vm.check()) }
 
     MainColumn(vm, butText, token, textFieldSize, vm.botInfo.collectAsState(), botInfoVis,
-        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP, adapterHandler
+        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP, adapter
     )
 }
 

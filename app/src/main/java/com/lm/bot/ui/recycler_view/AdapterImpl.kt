@@ -6,19 +6,14 @@ import com.lm.bot.ui.cells.RvItem
 import javax.inject.Inject
 
 class AdapterImpl @Inject constructor(
-    private val adapterHandler: AdapterHandler
+    val adapterHandler: AdapterHandler
 ) : RecyclerView.Adapter<MessageHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         adapterHandler.holder(parent)
 
-
     override fun onBindViewHolder(holder: MessageHolder, position: Int) =
-        holder.item.setContent {
-            RvItem(adapterHandler.list[position]) {
-                adapterHandler.apply { position.deleteItem }
-            }
-        }
+        adapterHandler.item(holder.item, position, this)
 
     override fun getItemCount() = adapterHandler.list.size
 }

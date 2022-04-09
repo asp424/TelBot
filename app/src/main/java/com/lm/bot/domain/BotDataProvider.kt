@@ -1,5 +1,6 @@
 package com.lm.bot.domain
 
+import androidx.compose.runtime.mutableStateListOf
 import com.lm.bot.core.MF
 import com.lm.bot.data.model.Message
 import kotlinx.coroutines.Job
@@ -8,7 +9,7 @@ import javax.inject.Inject
 
 interface BotDataProvider {
 
-    val messagesFlow: MF
+    val messagesFlow: MutableStateFlow<Message>
 
     var job: Job
 
@@ -16,7 +17,7 @@ interface BotDataProvider {
 
     class Base @Inject constructor(): BotDataProvider{
 
-        override val messagesFlow = MutableStateFlow(mutableListOf<Message>())
+        override val messagesFlow: MutableStateFlow<Message> = MutableStateFlow(Message())
 
         override var job: Job = Job()
 

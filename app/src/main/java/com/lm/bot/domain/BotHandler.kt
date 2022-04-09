@@ -1,5 +1,6 @@
 package com.lm.bot.domain
 
+import android.util.Log
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.network.fold
 import com.lm.bot.core.ResourceProvider
@@ -29,7 +30,12 @@ interface BotHandler {
             botDataProvider.apply {
                 job.apply { if (isActive) cancel() }
                 job = CoroutineScope(IO).launch {
-                    driveBot.collect { messagesFlow.value = it }
+                    driveBot.collect {
+                        Log.d("My", it.size.toString())
+                        it.forEach { m ->
+                            messagesFlow.value = m
+                        }
+                    }
                 }
             }
         }
