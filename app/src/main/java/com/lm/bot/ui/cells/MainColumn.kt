@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.unit.dp
+import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
-import com.lm.bot.ui.recycler_view.AdapterImpl
 import com.lm.bot.ui.theme.Teal200
 
 @Composable
@@ -27,7 +27,7 @@ inline fun MainColumn(
     crossinline tokenV: (String) -> Unit,
     crossinline onClick: (String, Boolean) -> Unit,
     rP: BotDataProvider,
-    adapter: AdapterImpl
+    rv: RecyclerView
 ) {
     Column(
         Modifier
@@ -37,7 +37,7 @@ inline fun MainColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        DataCard(textFieldSize, adapter, vm)
+        DataCard(textFieldSize, rv, vm)
         Box(modifier = Modifier.padding(top = animateDpAsState(if (!textFieldSize)
             0.dp else 60.dp).value)) {
             CustomTextField(
@@ -58,6 +58,6 @@ inline fun MainColumn(
         InfoCard(bI, botInfoVis, vm, textFieldSize)
         CustomButton(butText, onClick = { bT, tFS ->
             onClick(bT, tFS);
-        }, rP, bI, vm)
+        }, rP, bI, vm, rv)
     }
 }

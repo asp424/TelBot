@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,28 +17,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.RecyclerView
-import com.lm.bot.databinding.RecyclerViewBinding
 import com.lm.bot.presentation.BotViewModel
-import com.lm.bot.presentation.MainActivity
-import com.lm.bot.ui.recycler_view.AdapterImpl
 
 @Composable
 fun DataCard(
     textFieldSize: Boolean,
-    adapter: AdapterImpl,
+    rv: RecyclerView,
     vm: BotViewModel
 ) {
-    var rvv: RecyclerView? by remember {
-        mutableStateOf(null)
-    }
     //val stateList = rememberScrollState()
 
-    vm.message.collectAsState().value.also { l ->
-        LaunchedEffect(l) {
-            if (l.mess.isNotEmpty() && !adapter.adapterHandler.list.contains(l))
-                adapter.adapterHandler.updateList(l, adapter)
-        }
-    }
     Column(
         Modifier
             .background(Color.Gray),
@@ -59,10 +47,7 @@ fun DataCard(
             Log.d("My", (LocalConfiguration.current.screenHeightDp.dp / 3).toString())
 
             SelectionContainer {
-                AndroidView(factory = {
-                    RecyclerViewBinding.inflate((it as MainActivity).layoutInflater)
-                        .apply { rv.adapter = adapter }.root
-                })
+                AndroidView(factory = { rv })
 
                 /* Column(modifier = Modifier.verticalScroll(stateList)) {
                     vm.listMessages.collectAsState().value.forEach {

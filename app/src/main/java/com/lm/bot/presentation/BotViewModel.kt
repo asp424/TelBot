@@ -1,12 +1,12 @@
 package com.lm.bot.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lm.bot.core.ResourceProvider
 import com.lm.bot.data.shared_pref.SharedPrefProvider
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.domain.BotRepository
+import com.lm.bot.ui.recycler_view.Adapter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -34,14 +34,10 @@ class BotViewModel @Inject constructor(
         _botInfo.value = rP.init
     }
 
-    val message get() = botDataProvider.messagesFlow.asStateFlow()
-    init {
-
-
-        viewModelScope.launch {
-            message.collect {
-                Log.d("My", it.firstName.  toString())
-            }
+    fun messageWork(adapter: Adapter) = viewModelScope.launch {
+        botDataProvider.messagesFlow.collect {
+            if (it.mess.isNotEmpty() && !adapter.adapterHandler.list.contains(it))
+                adapter.adapterHandler.updateList(it, adapter)
         }
     }
 }

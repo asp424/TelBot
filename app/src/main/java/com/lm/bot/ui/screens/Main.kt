@@ -2,16 +2,15 @@ package com.lm.bot.ui.screens
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.ui.cells.MainColumn
-import com.lm.bot.ui.recycler_view.AdapterHandler
-import com.lm.bot.ui.recycler_view.AdapterImpl
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Main(vm: BotViewModel, rP: BotDataProvider, adapter: AdapterImpl) {
+fun Main(vm: BotViewModel, rP: BotDataProvider, rv: RecyclerView) {
 
     var token by remember { mutableStateOf(vm.id()) }
 
@@ -28,7 +27,7 @@ fun Main(vm: BotViewModel, rP: BotDataProvider, adapter: AdapterImpl) {
     var textFieldSize by remember { mutableStateOf(vm.check()) }
 
     MainColumn(vm, butText, token, textFieldSize, vm.botInfo.collectAsState(), botInfoVis,
-        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP, adapter
+        { token = it }, { bT, tFS -> butText = bT; textFieldSize = tFS }, rP, rv
     )
 }
 

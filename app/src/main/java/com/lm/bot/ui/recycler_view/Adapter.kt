@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.ui.cells.RvItem
 import javax.inject.Inject
 
-class AdapterImpl @Inject constructor(
+class Adapter @Inject constructor(
     val adapterHandler: AdapterHandler
 ) : RecyclerView.Adapter<MessageHolder>() {
 

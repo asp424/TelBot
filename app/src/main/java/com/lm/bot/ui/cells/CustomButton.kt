@@ -17,10 +17,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.core.ResourceProvider
 import com.lm.bot.domain.BotDataProvider
 import com.lm.bot.presentation.BotViewModel
 import com.lm.bot.presentation.MainActivity
+import com.lm.bot.ui.recycler_view.Adapter
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -29,7 +31,8 @@ inline fun CustomButton(
     crossinline onClick: (String, Boolean) -> Unit,
     rP: BotDataProvider,
     bI: State<Pair<String, String?>>,
-    vm: BotViewModel
+    vm: BotViewModel,
+    rv: RecyclerView
 ) {
     LocalSoftwareKeyboardController.current?.apply {
         (LocalContext.current as MainActivity).also { cont ->
@@ -42,6 +45,7 @@ inline fun CustomButton(
                                 cont.startBot()
                                 onClick("Stop bot", false)
                                 toast(cont, "Bot started")
+                                vm.messageWork(rv.adapter as Adapter)
                             } else toast(cont, "Wrong token format")
                         }
                     } else {

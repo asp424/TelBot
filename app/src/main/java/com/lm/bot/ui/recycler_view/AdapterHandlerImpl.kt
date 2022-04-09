@@ -1,15 +1,19 @@
 package com.lm.bot.ui.recycler_view
 
+import android.app.Application
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import com.lm.bot.core.RA
 import com.lm.bot.data.model.Message
 import com.lm.bot.databinding.ItemBinding
+import com.lm.bot.databinding.RecyclerViewBinding
+import com.lm.bot.presentation.MainActivity
 import com.lm.bot.ui.cells.RvItem
 import javax.inject.Inject
 
-class AdapterHandlerImpl @Inject constructor() : AdapterHandler {
+class AdapterHandlerImpl @Inject constructor(private val context: Application) : AdapterHandler {
 
     override fun updateList(message: Message, adapter: RA){
         list.add(message); adapter.notifyC(list.size) }
