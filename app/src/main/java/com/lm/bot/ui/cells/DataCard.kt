@@ -35,7 +35,7 @@ fun DataCard(
 
     vm.message.collectAsState().value.also { l ->
         LaunchedEffect(l) {
-            if (l.mess.isNotEmpty())
+            if (l.mess.isNotEmpty() && !adapter.adapterHandler.list.contains(l))
                 adapter.adapterHandler.updateList(l, adapter)
         }
     }

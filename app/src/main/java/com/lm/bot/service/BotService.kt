@@ -39,12 +39,6 @@ interface BotService {
             sP.saveId(""); sP.stop()
         }
 
-        override fun onTaskRemoved(rootIntent: Intent?) {
-            super.onTaskRemoved(rootIntent)
-            ;stopSelf(); botDataProvider.job.cancel()
-            sP.saveId(""); sP.stop()
-        }
-
         override fun onBind(intent: Intent?): IBinder? = null
 
     }
