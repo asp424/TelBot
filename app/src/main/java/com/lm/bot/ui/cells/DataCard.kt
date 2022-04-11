@@ -1,5 +1,6 @@
 package com.lm.bot.ui.cells
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.presentation.BotViewModel
+import com.lm.bot.ui.recycler_view.Adapter
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DataCard(
     textFieldSize: Boolean,
@@ -27,12 +30,23 @@ fun DataCard(
 ) {
     //val stateList = rememberScrollState()
 
+    vm.messageWork.collectAsState().value.also { l ->
+        LaunchedEffect(l) {
+            if (l.mess.isNotEmpty())
+                (rv.adapter as Adapter).apply { adapterMethods.updateList(l, this) }
+        }
+    }
     Column(
         Modifier
             .background(Color.Gray),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+            LaunchedEffect(key1 = true, block = {
+                Log.d("My", this.coroutineContext.toString())
+
+            })
         Card(
             modifier = Modifier
                 .size(

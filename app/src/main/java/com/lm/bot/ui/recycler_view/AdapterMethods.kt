@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lm.bot.core.RA
 import com.lm.bot.data.model.Message
 
-interface AdapterHandler {
+interface AdapterMethods {
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(message: Message, adapter: RA)

@@ -1,8 +1,7 @@
 package com.lm.bot.di.dagger.modules
 
-import com.lm.bot.domain.BotDataProvider
-import com.lm.bot.ui.recycler_view.AdapterHandler
-import com.lm.bot.ui.recycler_view.AdapterHandlerImpl
+import com.lm.bot.ui.recycler_view.AdapterMethods
+import com.lm.bot.ui.recycler_view.AdapterMethodsImpl
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -12,5 +11,5 @@ interface AdapterHandlerModule {
 
     @Binds
     @Singleton
-    fun bindsAdapterHandler(adapterHandler: AdapterHandlerImpl): AdapterHandler
+    fun bindsAdapterHandler(adapterHandler: AdapterMethodsImpl): AdapterMethods
 }

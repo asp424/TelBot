@@ -45,7 +45,6 @@ inline fun CustomButton(
                                 cont.startBot()
                                 onClick("Stop bot", false)
                                 toast(cont, "Bot started")
-                                vm.messageWork(rv.adapter as Adapter)
                             } else toast(cont, "Wrong token format")
                         }
                     } else {
